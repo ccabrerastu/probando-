@@ -5,7 +5,7 @@ def calcular(operacion, num1, num2):
         return num1 - num2
     elif operacion == "multiplicar":
         return num1 * num2
-    elif operacion == "dividir":
+    elif operacion == "dividirrr":
         return num1 / num2 if num2 != 0 else "Error: División por cero"
     else:
         return "Operación no válida"
