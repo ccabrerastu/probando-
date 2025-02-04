@@ -3,7 +3,7 @@ def calcular(operacion, num1, num2):
         return num1 + num2
     elif operacion == "restar":
         return num1 - num2
-    elif operacion == "multiplicar":
+    elif operacion == "multiplicarr":
         return num1 * num2
     elif operacion == "dividirrr":
         return num1 / num2 if num2 != 0 else "Error: División por cero"
