@@ -1,11 +1,6 @@
-# Usa una imagen base de Python
 FROM python:3.9
-
-# Establece el directorio de trabajo dentro del contenedor
 WORKDIR /app
-
-# Copia los archivos del proyecto al contenedor
 COPY . /app
-
-# Define el comando de ejecución de la calculadora
-CMD ["python", "app.py"]
+RUN apt-get update && apt-get install -y xvfb
+RUN pip install -r requirements.txt
+CMD ["xvfb-run", "python", "app.py"]
