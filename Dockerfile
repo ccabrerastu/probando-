@@ -2,9 +2,8 @@ FROM python:3.9
 
 WORKDIR /app
 
-# Instala Flask
-RUN pip install flask
-
 COPY . /app
+
+RUN pip install -r requirements.txt
 
 CMD ["python", "app.py"]
