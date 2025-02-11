@@ -1,36 +1,44 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, render_template
 
 app = Flask(__name__)
 
 @app.route('/')
-def home():
-    return "¡Bienvenido a la calculadora en Flask! Usa /sumar, /restar, /multiplicar, /dividir con parámetros a y b."
+def index():
+    return '''
+        <h2>Calculadora Flask</h2>
+        <form action="/calcular" method="get">
+            <input type="number" name="a" placeholder="Número 1" required>
+            <input type="number" name="b" placeholder="Número 2" required>
+            <select name="operacion">
+                <option value="sumar">Sumar</option>
+                <option value="restar">Restar</option>
+                <option value="multiplicar">Multiplicar</option>
+                <option value="dividir">Dividir</option>
+            </select>
+            <button type="submit">Calcular</button>
+        </form>
+    '''
 
-@app.route('/sumar', methods=['GET'])
-def sumar():
+@app.route('/calcular')
+def calcular():
     a = request.args.get('a', type=float)
     b = request.args.get('b', type=float)
-    return jsonify({'resultado': a + b})
+    operacion = request.args.get('operacion')
 
-@app.route('/restar', methods=['GET'])
-def restar():
-    a = request.args.get('a', type=float)
-    b = request.args.get('b', type=float)
-    return jsonify({'resultado': a - b})
+    if operacion == "sumar":
+        resultado = a + b
+    elif operacion == "restar":
+        resultado = a - b
+    elif operacion == "multiplicar":
+        resultado = a * b
+    elif operacion == "dividir":
+        if b == 0:
+            return "Error: No se puede dividir por 0"
+        resultado = a / b
+    else:
+        return "Operación no válida"
 
-@app.route('/multiplicar', methods=['GET'])
-def multiplicar():
-    a = request.args.get('a', type=float)
-    b = request.args.get('b', type=float)
-    return jsonify({'resultado': a * b})
-
-@app.route('/dividir', methods=['GET'])
-def dividir():
-    a = request.args.get('a', type=float)
-    b = request.args.get('b', type=float)
-    if b == 0:
-        return jsonify({'error': 'No se puede dividir por cero'}), 400
-    return jsonify({'resultado': a / b})
+    return f"Resultado: {resultado}"
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000)
+    app.run(debug=True, host='0.0.0.0', port=5000)
